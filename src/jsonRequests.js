@@ -32,13 +32,12 @@ const getUsersMeta = (request, response) => {
   respondJSONMeta(request, response, 200);
 };
 
-// This will have to be changed to match form answers
 const addUser = (request, response, body) => {
   const responseJSON = {
-    message: 'Name and age are both required',
+    message: 'Name and cards are both required',
   };
 
-  if (!body.name || !body.age) {
+  if (!body.name || body.cards.length === 0) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
@@ -52,10 +51,11 @@ const addUser = (request, response, body) => {
     users[body.name].name = body.name;
   }
 
-  users[body.name].age = body.age;
+  users[body.name].cards = body.cards;
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';
+    console.log(users[0]);
     return respondJSON(request, response, responseCode, responseJSON);
   }
 
